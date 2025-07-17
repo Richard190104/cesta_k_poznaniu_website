@@ -3,8 +3,112 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize navbar functionality
     initializeNavbar();
     
+    // Initialize scroll animations
+    initializeScrollAnimations();
+    
     console.log('🌱 Cesta k Poznaniu - Website loaded successfully');
 });
+
+// Initialize scroll animations for elements
+function initializeScrollAnimations() {
+    // Create intersection observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                // Optional: Stop observing once animated
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all sections and their content with different animation types
+    const sectionsToAnimate = document.querySelectorAll('.services-section, .about-section, .lectors-section, .testimonials-section, .contact-section');
+    
+    sectionsToAnimate.forEach((section, index) => {
+        section.classList.add('animate-on-scroll');
+        observer.observe(section);
+        
+        // Add different animation types based on section index
+        const animationTypes = ['fade-in', 'slide-left', 'slide-right', 'scale-up'];
+        const animationType = animationTypes[index % animationTypes.length];
+        section.classList.add(animationType);
+        
+        // Animate section content
+        const title = section.querySelector('h2');
+        const description = section.querySelector('p');
+        
+        if (title) {
+            title.classList.add('animate-on-scroll', 'fade-in');
+            title.style.transitionDelay = '0.2s';
+            observer.observe(title);
+        }
+        
+        if (description) {
+            description.classList.add('animate-on-scroll', 'fade-in');
+            description.style.transitionDelay = '0.4s';
+            observer.observe(description);
+        }
+    });
+    
+    // Add special animations for main hero section
+    const heroTitle = document.querySelector('.main-top h1');
+    const heroDescription = document.querySelector('.main-top p');
+    
+    if (heroTitle) {
+        heroTitle.classList.add('animate-on-scroll', 'scale-up');
+        heroTitle.style.transitionDelay = '0.5s';
+        observer.observe(heroTitle);
+    }
+    
+    if (heroDescription) {
+        heroDescription.classList.add('animate-on-scroll', 'fade-in');
+        heroDescription.style.transitionDelay = '0.7s';
+        observer.observe(heroDescription);
+    }
+    
+    // Add continuous scroll effects (optional parallax-like effects)
+}
+
+// Add continuous scroll effects for enhanced experience
+function addContinuousScrollEffects() {
+    let ticking = false;
+    
+    function updateScrollEffects() {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        // Parallax effect for sections
+        const parallaxElements = document.querySelectorAll('.services-section, .lectors-section, .contact-section');
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.1 + (index * 0.05);
+            element.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+        
+        // Fade effect for hero section
+        const heroSection = document.querySelector('.main-top');
+        if (heroSection) {
+            const opacity = Math.max(0, 1 - scrolled / 600);
+            heroSection.style.opacity = opacity;
+        }
+        
+        ticking = false;
+    }
+    
+    function requestScrollUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollEffects);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+}
 
 // Initialize navbar functionality
 function initializeNavbar() {
@@ -267,5 +371,69 @@ style.textContent = `
         position: relative;
         overflow: hidden;
     }
+    
+    /* Scroll animations */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .animate-on-scroll.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Different animation types */
+    .animate-on-scroll.fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .animate-on-scroll.fade-in.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .animate-on-scroll.slide-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    
+    .animate-on-scroll.slide-left.animate-in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .animate-on-scroll.slide-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    
+    .animate-on-scroll.slide-right.animate-in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .animate-on-scroll.scale-up {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .animate-on-scroll.scale-up.animate-in {
+        opacity: 1;
+        transform: scale(1);
+    }
+    
+    /* Stagger animations for multiple elements */
+    .animate-on-scroll:nth-child(1) { transition-delay: 0.1s; }
+    .animate-on-scroll:nth-child(2) { transition-delay: 0.2s; }
+    .animate-on-scroll:nth-child(3) { transition-delay: 0.3s; }
+    .animate-on-scroll:nth-child(4) { transition-delay: 0.4s; }
+    .animate-on-scroll:nth-child(5) { transition-delay: 0.5s; }
 `;
 document.head.appendChild(style);
