@@ -27,7 +27,7 @@ function initializeScrollAnimations() {
             }
         });
     }, observerOptions);
-    const sectionsToAnimate = document.querySelectorAll('.services-section, .about-section, .lectors-section, .testimonials-section, .contact-section');
+    const sectionsToAnimate = document.querySelectorAll('.services-section, .about-section, .lectors-section, .book-section, .testimonials-section, .contact-section');
     sectionsToAnimate.forEach((section, index) => {
         section.classList.add('animate-on-scroll');
         observer.observe(section);
@@ -501,3 +501,75 @@ lectors.forEach(lector => {
         document.body.appendChild(overlay);
     });
 })
+
+// Contact Description Toggle
+function toggleDescription(descriptionId) {
+    const description = document.getElementById(descriptionId);
+    const button = event.target.closest('button');
+    
+    if (description.style.display === 'none' || description.style.display === '') {
+        description.style.display = 'block';
+        button.querySelector('span').textContent = 'Skryť informácie';
+    } else {
+        description.style.display = 'none';
+        button.querySelector('span').textContent = 'Viac informácií';
+    }
+}
+
+// Poem Popup Functions
+function openPoemPopup(poemId) {
+    const poemData = document.getElementById(poemId);
+    if (!poemData) return;
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'poem-popup-overlay';
+    
+    // Create popup
+    const popup = document.createElement('div');
+    popup.className = 'poem-popup';
+    
+    // Create close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'popup-close';
+    closeBtn.innerHTML = '×';
+    closeBtn.onclick = () => document.body.removeChild(overlay);
+    
+    // Get poem content
+    const title = poemData.querySelector('h4').outerHTML;
+    const content = poemData.querySelector('.full-poem').outerHTML;
+    
+    // Build popup content
+    popup.innerHTML = title + content;
+    popup.appendChild(closeBtn);
+    overlay.appendChild(popup);
+    
+    // Close on overlay click
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            document.body.removeChild(overlay);
+        }
+    });
+    
+    // Close on Escape key
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            document.body.removeChild(overlay);
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
+    
+    document.body.appendChild(overlay);
+}
+
+// Legacy functions (kept for compatibility)
+function togglePoets() {
+    // Legacy function - no longer used but kept for compatibility
+    console.log('togglePoets is deprecated - using glimpse view instead');
+}
+
+function togglePoems() {
+    // Legacy function - no longer used but kept for compatibility
+    console.log('togglePoems is deprecated - using glimpse view instead');
+}
