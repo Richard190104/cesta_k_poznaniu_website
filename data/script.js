@@ -606,7 +606,7 @@ function sendChatbotMessage() {
     // Simulate bot response (skeleton)
     console.log(text)
     setTimeout(() => {
-        fetch('https://chatbot-api-ebon.vercel.app/api/index', {
+        fetch('https://chatbot-api-5d9u.onrender.com', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question: text })
