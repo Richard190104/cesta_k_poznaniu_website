@@ -613,12 +613,15 @@ function sendChatbotMessage() {
         }).then(response => response.json())
         .then(data => {
             console.log(data.similarity)
+            console.log(data.matched_question)
             if (data.similarity < 0.4){
-                      addChatbotMessage('bot', "Nerozumela som vám. Možete to prosím zopakovať?");
+                addChatbotMessage('bot', "Nerozumela som vám. Možete to prosím zopakovať?");
             }
             else{
-                addChatbotMessage('bot', data.answer);
+
+                addChatbotMessage('bot', data.answer + " " + data.similarity + " " + data.matched_question);
             }
+
             
         })
     }, 700);
@@ -652,7 +655,6 @@ function addChatbotMessage(sender, text) {
 }
 
 const chatbotToggle = document.getElementById('chatbot-toggle');
-chatbotToggle.style.display = 'none';
 function showChatbotWindow() {
     chatbotWindow.style.display = 'flex';
     chatbotToggle.classList.add('hide');
