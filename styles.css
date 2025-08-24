@@ -1162,18 +1162,6 @@ body {
     font-weight: 500;
 }
 
-.feature-icon {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    background: var(--color-secondary);
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
 /* Responsive design for services section */
 @media (max-width: 968px) {
     .services-content {
@@ -1497,7 +1485,7 @@ body {
 }
 
 .lector-item {
-    flex: 0 0 100%; /* Default: 1 slide visible on mobile */
+    flex: 0 0 100%; /* 1 slide on mobile */
     background: var(--color-white);
     padding: 2.5rem 1.5rem;
     text-align: center;
@@ -1690,108 +1678,222 @@ body {
     color: white;
 }
 
+/* Chatbot Window Styles */
+.chatbot-window {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    width: 320px;
+    max-width: 90vw;
+    height: 420px;
+    background: #fff;
+    border-radius: 18px 18px 8px 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: inherit;
+    overflow: hidden;
+}
+.chatbot-header {
+    background: linear-gradient(90deg, #ff8c42 0%, #ff6b35 100%);
+    color: #fff;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+}
+#chatbot-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+.chatbot-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background: #f8f9fa;
+    font-size: 1rem;
+}
+.chatbot-input-area {
+    display: flex;
+    padding: 0.7rem 1rem;
+    background: #f3f3f3;
+    border-top: 1px solid #eee;
+}
+#chatbot-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    width: 80%;
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    outline: none;
+}
+#chatbot-send {
+    margin-left: 0.7rem;
+    background: linear-gradient(90deg, #ff8c42 0%, #ff6b35 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    width: 20%;
+    transition: background 0.2s;
+}
+#chatbot-send:hover {
+    background: linear-gradient(90deg, #ff6b35 0%, #ff8c42 100%);
+}
 
+/* Improved Chatbot Toggle Icon */
+.chatbot-toggle {
+    position: fixed;
+    right: 2.5rem;
+    bottom: 2.5rem;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+    border-radius: 50%;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    transition: box-shadow 0.2s, transform 0.2s, opacity 0.2s;
+    opacity: 1;
+    border: 3px solid #fff;
+    animation: chatbot-pop 0.5s;
+}
+.chatbot-toggle:hover {
+    box-shadow: 0 12px 36px rgba(0,0,0,0.22);
+    transform: scale(1.08);
+}
+@keyframes chatbot-pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.chatbot-toggle svg {
+    width: 32px;
+    height: 32px;
+    fill: #fff;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+}
 
+.user-msg{
+    display: flex;
+    right: 5px;
+    width: 100%;
+}
+/* Hide toggle when chatbot is open */
+.chatbot-toggle.hide {
+    opacity: 0;
+    pointer-events: none;
+}
 
-/* Responsive Design */
+.chatbot-msg.user{
+    display: flex;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    flex-direction: row-reverse;
+    margin-right: 1rem;
+}
+
+.chatbot-msg.user-msg {
+    justify-content: flex-end;
+}
+
+.chatbot-msg.bot-msg {
+    justify-content: flex-start;
+}
+
+/* Adjust chatbot window position so it doesn't overlap the toggle */
+.chatbot-window {
+    left: unset;
+    right: 2.5rem;
+    bottom: 2.5rem;
+    display: none;
+}
+@media (max-width: 600px) {
+    .chatbot-toggle {
+        right: 1rem;
+        bottom: 1rem;
+        width: 56px;
+        height: 56px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    .chatbot-toggle svg {
+        width: 36px;
+        height: 36px;
+    }
+    .chatbot-window {
+        right: 0.5rem;
+        bottom: 0.5rem;
+        width: 98vw;
+        height: 60vh;
+        min-width: 0;
+        border-radius: 16px 16px 8px 8px;
+        font-size: 1.05rem;
+    }
+    .chatbot-header {
+        font-size: 1.2rem;
+        padding: 0.7rem 0.8rem;
+    }
+    .chatbot-messages {
+        padding: 0.7rem;
+        font-size: 1.05rem;
+    }
+    .chatbot-input-area {
+        padding: 0.6rem 0.8rem;
+    }
+    #chatbot-input {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.7rem;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    #chatbot-send {
+        font-size: 1.2rem;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Remove duplicate .lector-item rules and fix slider responsiveness */
+.lector-item {
+    flex: 0 0 100%; /* 1 slide on mobile */
+    background: var(--color-white);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    transition: all var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 380px;
+    box-sizing: border-box;
+    margin: 0;
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     .lector-item {
-        flex: 0 0 50%; /* 2 slides visible on tablet */
-    }
-    
-    .lectors-slider {
-        padding: 0 70px;
-        margin: 4rem auto 0;
-    }
-    
-    .slider-btn {
-        width: 55px;
-        height: 55px;
-    }
-    
-    .slider-btn svg {
-        width: 26px;
-        height: 26px;
+        flex: 0 0 50%; /* 2 slides on tablet */
     }
 }
 
 @media (min-width: 1024px) {
     .lector-item {
-        flex: 0 0 33.333%; /* 3 slides visible on desktop */
-    }
-    
-    .lectors-slider {
-        padding: 0 80px;
-        margin: 4rem auto 0;
-    }
-    
-    .slider-btn {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .slider-btn svg {
-        width: 28px;
-        height: 28px;
-    }
-}
-
-@media (max-width: 767px) {
-    .lectors-slider {
-        padding: 0 50px;
-        margin: 3rem auto 0;
-    }
-    
-    .slider-btn {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .slider-btn-prev {
-        left: 5px;
-    }
-    
-    .slider-btn-next {
-        right: 5px;
-    }
-    
-    .slider-btn svg {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .lector-item {
-        padding: 2rem 1rem;
-        min-height: 320px;
-    }
-    
-    .lector-img {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .lector-item h3 {
-        font-size: 1.3rem;
-    }
-    
-    .lector-item p {
-        font-size: 1rem;
-    }
-    
-    .lector-click-indicator {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.85rem;
-        margin-top: 0.8rem;
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    .slider-dots {
-        gap: 0.6rem;
-    }
-    
-    .slider-dot {
-        width: 10px;
-        height: 10px;
+        flex: 0 0 33.3333%; /* 3 slides on desktop */
     }
 }

@@ -573,3 +573,102 @@ function togglePoems() {
     // Legacy function - no longer used but kept for compatibility
     console.log('togglePoems is deprecated - using glimpse view instead');
 }
+
+// Chatbot Skeleton Logic
+const chatbotWindow = document.querySelector('.chatbot-window');
+const chatbotClose = document.getElementById('chatbot-close');
+const chatbotSend = document.getElementById('chatbot-send');
+const chatbotInput = document.getElementById('chatbot-input');
+const chatbotMessages = document.querySelector('.chatbot-messages');
+
+// Close chatbot window
+if (chatbotClose) {
+    chatbotClose.addEventListener('click', () => {
+        chatbotWindow.style.display = 'none';
+    });
+}
+
+// Send message
+if (chatbotSend && chatbotInput && chatbotMessages) {
+    chatbotSend.addEventListener('click', sendChatbotMessage);
+    chatbotInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            sendChatbotMessage();
+        }
+    });
+}
+
+function sendChatbotMessage() {
+    const text = chatbotInput.value.trim();
+    if (!text) return;
+    addChatbotMessage('user', text);
+    chatbotInput.value = '';
+    // Simulate bot response (skeleton)
+    console.log(text)
+    setTimeout(() => {
+        fetch('https://chatbot-api-ebon.vercel.app/api/index', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: text })
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data.similarity)
+            if (data.similarity < 0.4){
+                      addChatbotMessage('bot', "Nerozumela som vám. Možete to prosím zopakovať?");
+            }
+            else{
+                addChatbotMessage('bot', data.answer);
+            }
+            
+        })
+    }, 700);
+}
+
+function addChatbotMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chatbot-msg ' + sender;
+    msgDiv.innerHTML = `<span>${text}</span>`;
+    if (sender === 'user') {
+        msgDiv.style.alignSelf = 'flex-end';
+        msgDiv.style.background = 'linear-gradient(90deg, #ff8c42 0%, #ff6b35 100%)';
+        msgDiv.style.color = '#fff';
+        msgDiv.style.borderRadius = '16px 16px 4px 16px';
+        msgDiv.style.margin = '6px 0 6px auto';
+        msgDiv.style.padding = '10px 16px';
+        msgDiv.style.maxWidth = '80%';
+        msgDiv.style.boxShadow = '0 2px 8px rgba(255,108,66,0.08)';
+    } else {
+        msgDiv.style.alignSelf = 'flex-start';
+        msgDiv.style.background = '#f3f3f3';
+        msgDiv.style.color = '#22304a';
+        msgDiv.style.borderRadius = '16px 16px 16px 4px';
+        msgDiv.style.margin = '6px auto 6px 0';
+        msgDiv.style.padding = '10px 16px';
+        msgDiv.style.maxWidth = '80%';
+        msgDiv.style.boxShadow = '0 2px 8px rgba(34,48,74,0.07)';
+    }
+    chatbotMessages.appendChild(msgDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+const chatbotToggle = document.getElementById('chatbot-toggle');
+function showChatbotWindow() {
+    chatbotWindow.style.display = 'flex';
+    chatbotToggle.classList.add('hide');
+}
+function hideChatbotWindow() {
+    chatbotWindow.style.display = 'none';
+    chatbotToggle.classList.remove('hide');
+}
+if (chatbotToggle && chatbotWindow) {
+    chatbotToggle.addEventListener('click', showChatbotWindow);
+}
+if (chatbotClose) {
+    chatbotClose.addEventListener('click', hideChatbotWindow);
+}
+if (chatbotWindow) {
+    chatbotWindow.style.display = 'none';
+    chatbotToggle.classList.remove('hide');
+}
+
+addChatbotMessage('bot', "Ahoj! 😊 Ako vám môžem pomôcť?");

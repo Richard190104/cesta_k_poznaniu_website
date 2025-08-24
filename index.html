@@ -652,6 +652,26 @@
         </div>
     </section>
     
+    <!-- Chatbot Window -->
+<div id="chatbot-window" class="chatbot-window" style="display: none;" aria-modal="true" role="dialog">
+    <div class="chatbot-header">
+        <span>Lea</span>
+        <button id="chatbot-close" title="Zavrieť" aria-label="Zavrieť">×</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+        <!-- Messages will appear here -->
+    </div>
+    <div class="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Napíšte správu..." autocomplete="off" style="font-size:1.1rem;" />
+        <button id="chatbot-send" style="font-size:1.2rem; min-width:44px; min-height:44px;">&gt;</button>
+    </div>
+</div>
+
+<!-- Chatbot Toggle Icon -->
+<div class="chatbot-toggle" id="chatbot-toggle" title="Chatbot" aria-label="Otvoriť chatbot" tabindex="0">
+    <svg viewBox="0 0 24 24" style="width:36px;height:36px;"><circle cx="12" cy="12" r="10"/><ellipse cx="8.5" cy="10.5" rx="1.5" ry="2"/><ellipse cx="15.5" cy="10.5" rx="1.5" ry="2"/><path d="M8 16c1.5 1 6.5 1 8 0"/></svg>
+</div>
+    
     <script src="data/script.js"></script>
 </body>
 </html>
