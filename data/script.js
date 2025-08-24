@@ -652,6 +652,7 @@ function addChatbotMessage(sender, text) {
 }
 
 const chatbotToggle = document.getElementById('chatbot-toggle');
+chatbotToggle.style.display = 'none';
 function showChatbotWindow() {
     chatbotWindow.style.display = 'flex';
     chatbotToggle.classList.add('hide');
