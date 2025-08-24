@@ -619,7 +619,7 @@ function sendChatbotMessage() {
             }
             else{
 
-                addChatbotMessage('bot', data.answer + " " + data.similarity + " " + data.matched_question);
+                addChatbotMessage('bot', data.answer );
             }
 
             
