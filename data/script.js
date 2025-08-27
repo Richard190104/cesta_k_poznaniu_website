@@ -603,8 +603,8 @@ function sendChatbotMessage() {
     if (!text) return;
     addChatbotMessage('user', text);
     chatbotInput.value = '';
-    // Simulate bot response (skeleton)
-    console.log(text)
+    // Show loading indicator
+    showChatbotLoading();
     setTimeout(() => {
         fetch('https://chatbot-api-5d9u.onrender.com', {
             method: 'POST',
@@ -612,19 +612,28 @@ function sendChatbotMessage() {
             body: JSON.stringify({ question: text })
         }).then(response => response.json())
         .then(data => {
-            console.log(data.similarity)
-            console.log(data.matched_question)
-            if (data.similarity < 0.4){
-                addChatbotMessage('bot', "Nerozumela som vám. Možete to prosím zopakovať?");
+            hideChatbotLoading();
+            if(data.similarity < 0.4) {
+                addChatbotMessage('bot', "Prepáčte, nerozumela som vám. Možete to prosím zopakovať?");
+            } else {
+                addChatbotMessage('bot', data.answer);
             }
-            else{
-
-                addChatbotMessage('bot', data.answer );
-            }
-
-            
         })
     }, 700);
+}
+
+function showChatbotLoading() {
+    hideChatbotLoading();
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'chatbot-msg bot chatbot-loading';
+    loadingDiv.innerHTML = '<span><svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:middle;"><circle cx="12" cy="12" r="10" stroke="#ff8c42" stroke-width="4" fill="none" opacity="0.3"/><circle cx="12" cy="12" r="6" stroke="#ff8c42" stroke-width="4" fill="none" stroke-dasharray="18" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/></circle></svg> Čakám na odpoveď...</span>';
+    chatbotMessages.appendChild(loadingDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function hideChatbotLoading() {
+    const loadingDiv = chatbotMessages.querySelector('.chatbot-loading');
+    if (loadingDiv) loadingDiv.remove();
 }
 
 function addChatbotMessage(sender, text) {
@@ -674,4 +683,13 @@ if (chatbotWindow) {
     chatbotToggle.classList.remove('hide');
 }
 
-addChatbotMessage('bot', "Ahoj! 😊 Ako vám môžem pomôcť?");
+    fetch('https://chatbot-api-5d9u.onrender.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: "" })
+        }).then(response => response.json())
+        .then(data => {
+            hideChatbotLoading();
+            addChatbotMessage('bot', "Ahoj! 😊 Ako vám môžem pomôcť?");
+
+        })
