@@ -45,7 +45,7 @@ function toggleDescription(descriptionId) {
 
 // Load and render events from events.json
 function loadEvents() {
-    fetch('events.json')
+    fetch('https://raw.githubusercontent.com/Richard190104/cesta_k_poznaniu_website/refs/heads/master/events.json')
         .then(response => response.json())
         .then(events => {
             const eventsSection = document.getElementById('events-list');
