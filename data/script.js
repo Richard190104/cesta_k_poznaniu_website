@@ -626,7 +626,7 @@ function showChatbotLoading() {
     hideChatbotLoading();
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'chatbot-msg bot chatbot-loading';
-    loadingDiv.innerHTML = '<span><svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:middle;"><circle cx="12" cy="12" r="10" stroke="#ff8c42" stroke-width="4" fill="none" opacity="0.3"/><circle cx="12" cy="12" r="6" stroke="#ff8c42" stroke-width="4" fill="none" stroke-dasharray="18" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/></circle></svg> Čakám na odpoveď...</span>';
+    loadingDiv.innerHTML = '<span><svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:middle;"><circle cx="12" cy="12" r="10" stroke="#ff8c42" stroke-width="4" fill="none" opacity="0.3"/><circle cx="12" cy="12" r="6" stroke="#ff8c42" stroke-width="4" fill="none" stroke-dasharray="18" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/></circle></svg> ...</span>';
     chatbotMessages.appendChild(loadingDiv);
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 }
