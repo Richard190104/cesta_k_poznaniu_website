@@ -19,6 +19,9 @@ if (chatbotSend && chatbotInput && chatbotMessages) {
         }
     });
 }
+
+chatbotToggle.style.display = 'none';
+
 function sendChatbotMessage() {
     const text = chatbotInput.value.trim();
     if (!text) return;
